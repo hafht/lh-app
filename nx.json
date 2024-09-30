@@ -51,5 +51,6 @@
       "unitTestRunner": "jest"
     }
   },
-  "nxCloudAccessToken": "YWQ5ZTA5NDctMWRjMC00MTNjLTk5N2UtYzE0YTdjNzgzN2NmfHJlYWQtd3JpdGU="
+  "nxCloudAccessToken": "YWQ5ZTA5NDctMWRjMC00MTNjLTk5N2UtYzE0YTdjNzgzN2NmfHJlYWQtd3JpdGU=",
+  "defaultProject": "cf-electron"
 }
