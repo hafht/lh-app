@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@creative-force/cf-app-core": ["libs/desktop/core/src/index.ts"]
+      "@creative-force/cf-app-core": ["libs/desktop/core/src/index.ts"],
+      "@creative-force/cf-app-preload": ["libs/desktop/preload/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
