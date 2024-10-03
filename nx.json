@@ -46,6 +46,11 @@
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
+    },
+    "@nx/angular:package": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     }
   },
   "generators": {
@@ -54,6 +59,13 @@
       "linter": "eslint",
       "style": "scss",
       "unitTestRunner": "jest"
+    },
+    "@nx/angular:library": {
+      "linter": "eslint",
+      "unitTestRunner": "none"
+    },
+    "@nx/angular:component": {
+      "style": "scss"
     }
   },
   "nxCloudAccessToken": "YWQ5ZTA5NDctMWRjMC00MTNjLTk5N2UtYzE0YTdjNzgzN2NmfHJlYWQtd3JpdGU=",
