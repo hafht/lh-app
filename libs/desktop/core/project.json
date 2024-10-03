@@ -1,0 +1,40 @@
+{
+  "name": "core",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/desktop/core/src",
+  "projectType": "library",
+  "release": {
+    "version": {
+      "generatorOptions": {
+        "packageRoot": "dist/{projectRoot}",
+        "currentVersionResolver": "git-tag"
+      }
+    }
+  },
+  "tags": ["electron"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/desktop/core",
+        "tsConfig": "libs/desktop/core/tsconfig.lib.json",
+        "packageJson": "libs/desktop/core/package.json",
+        "main": "libs/desktop/core/src/index.ts",
+        "assets": ["libs/desktop/core/*.md"]
+      }
+    },
+    "nx-release-publish": {
+      "options": {
+        "packageRoot": "dist/{projectRoot}"
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/desktop/core/jest.config.ts"
+      }
+    }
+  }
+}

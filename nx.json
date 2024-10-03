@@ -41,6 +41,11 @@
           "codeCoverage": true
         }
       }
+    },
+    "@nx/js:tsc": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     }
   },
   "generators": {
@@ -52,5 +57,18 @@
     }
   },
   "nxCloudAccessToken": "YWQ5ZTA5NDctMWRjMC00MTNjLTk5N2UtYzE0YTdjNzgzN2NmfHJlYWQtd3JpdGU=",
-  "defaultProject": "cf-electron"
+  "defaultProject": "cf-electron",
+  "release": {
+    "version": {
+      "preVersionCommand": "npx nx run-many -t build"
+    }
+  },
+  "plugins": [
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "eslint:lint"
+      }
+    }
+  ]
 }

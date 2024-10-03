@@ -4,9 +4,9 @@
  */
 
 import { app, ipcMain } from 'electron';
-import { environment } from '../../environments/environment';
+import { CFAppCore } from '../core';
 
-export default class ElectronEvents {
+export class ElectronEvents {
   static bootstrapElectronEvents(): Electron.IpcMain {
     return ipcMain;
   }
@@ -14,9 +14,9 @@ export default class ElectronEvents {
 
 // Retrieve app version
 ipcMain.handle('get-app-version', (event) => {
-  console.log(`Fetching application version... [v${environment.version}]`);
+  console.log(`Fetching application version... [v${CFAppCore.environment().version}]`);
 
-  return environment.version;
+  return CFAppCore.environment().version;
 });
 
 // Handle App termination

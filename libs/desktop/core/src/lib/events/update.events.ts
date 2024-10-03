@@ -1,16 +1,16 @@
 import { app, autoUpdater, dialog, MessageBoxOptions } from 'electron';
 import { platform, arch } from 'os';
-import { updateServerUrl } from '../constants';
+import { CFAppCore } from '../core';
 import App from '../app';
 
-export default class UpdateEvents {
+export class UpdateEvents {
   // initialize auto update service - most be invoked only in production
   static initAutoUpdateService() {
     const platform_arch =
       platform() === 'win32' ? platform() : platform() + '_' + arch();
     const version = app.getVersion();
     const feed: Electron.FeedURLOptions = {
-      url: `${updateServerUrl}/update/${platform_arch}/${version}`,
+      url: `${CFAppCore.appConfig().development.updateServerUrl}/update/${platform_arch}/${version}`,
     };
 
     if (!App.isDevelopmentMode()) {

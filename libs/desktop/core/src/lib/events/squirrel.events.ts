@@ -5,7 +5,7 @@
 import { app } from 'electron';
 import { spawn } from 'child_process';
 import { resolve, join, basename } from 'path';
-import { environment } from '../../environments/environment';
+import { CFAppCore } from '../core';
 
 export default class SquirrelEvents {
   private static isAppFirstRun = false;
@@ -16,30 +16,30 @@ export default class SquirrelEvents {
   private static updateExe = resolve(
     join(SquirrelEvents.appRootFolder, 'Update.exe')
   );
-  private static exeName = resolve(
-    join(
-      SquirrelEvents.appRootFolder,
-      'app-' + environment.version,
-      basename(process.execPath)
-    )
-  );
 
   static handleEvents(): boolean {
     if (process.argv.length === 1 || process.platform !== 'win32') {
       return false;
     }
+    const exeName = resolve(
+      join(
+        SquirrelEvents.appRootFolder,
+        'app-' + CFAppCore.environment().version,
+        basename(process.execPath)
+      )
+    );
 
     switch (process.argv[1]) {
       case '--squirrel-install':
       case '--squirrel-updated':
         // Install desktop and start menu shortcuts
-        SquirrelEvents.update(['--createShortcut', SquirrelEvents.exeName]);
+        SquirrelEvents.update(['--createShortcut', exeName]);
 
         return true;
 
       case '--squirrel-uninstall':
         // Remove desktop and start menu shortcuts
-        SquirrelEvents.update(['--removeShortcut', SquirrelEvents.exeName]);
+        SquirrelEvents.update(['--removeShortcut', exeName]);
 
         return true;
 

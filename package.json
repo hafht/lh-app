@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "postinstall": "electron-builder install-app-deps && electron-builder install-app-deps"
+    "postinstall": "electron-builder install-app-deps && electron-builder install-app-deps",
+    "serve-web": "nx run lh-app:serve:development",
+    "build-desktop-app": "nx run cf-electron:build:development"
   },
   "private": true,
   "dependencies": {
@@ -34,6 +36,7 @@
     "@nx/eslint-plugin": "19.8.2",
     "@nx/jest": "19.8.2",
     "@nx/js": "19.8.2",
+    "@nx/node": "^19.8.2",
     "@nx/workspace": "19.8.2",
     "@schematics/angular": "18.2.6",
     "@swc-node/register": "1.9.2",
@@ -56,6 +59,10 @@
     "prettier": "^2.6.2",
     "ts-jest": "^29.1.0",
     "ts-node": "10.9.1",
-    "typescript": "5.5.4"
+    "typescript": "5.5.4",
+    "verdaccio": "^5.0.4"
+  },
+  "nx": {
+    "includedScripts": []
   }
 }

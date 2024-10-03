@@ -1,8 +1,7 @@
 import { BrowserWindow, shell, screen } from 'electron';
-import { rendererAppName, rendererAppPort } from './constants';
-import { environment } from '../environments/environment';
 import { join } from 'path';
 import { format } from 'url';
+import { CFAppCore } from './core';
 
 export default class App {
   // Keep a global reference of the window object, if you don't, the window will
@@ -16,7 +15,7 @@ export default class App {
     const getFromEnvironment: boolean =
       parseInt(process.env.ELECTRON_IS_DEV, 10) === 1;
 
-    return isEnvironmentSet ? getFromEnvironment : !environment.production;
+    return isEnvironmentSet ? getFromEnvironment : !CFAppCore.environment().production;
   }
 
   private static onWindowAllClosed() {
@@ -44,7 +43,7 @@ export default class App {
     // This method will be called when Electron has finished
     // initialization and is ready to create browser windows.
     // Some APIs can only be used after this event occurs.
-    if (rendererAppName) {
+    if (CFAppCore.appConfig().development?.rendererAppName) {
       App.initMainWindow();
       App.loadMainWindow();
     }
@@ -100,11 +99,11 @@ export default class App {
   private static loadMainWindow() {
     // load the index.html of the app.
     if (!App.application.isPackaged) {
-      App.mainWindow.loadURL(`http://localhost:${rendererAppPort}`);
+      App.mainWindow.loadURL(`http://localhost:${CFAppCore.appConfig().development.rendererAppPort}`);
     } else {
       App.mainWindow.loadURL(
         format({
-          pathname: join(__dirname, '..', rendererAppName, 'index.html'),
+          pathname: join(__dirname, '..', CFAppCore.appConfig().development.rendererAppName, 'index.html'),
           protocol: 'file:',
           slashes: true,
         })
