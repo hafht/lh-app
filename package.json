@@ -5,7 +5,7 @@
   "scripts": {
     "postinstall": "electron-builder install-app-deps && electron-builder install-app-deps",
     "serve-web": "nx run lh-app:serve:development",
-    "build-desktop-app": "nx run cf-electron:build:development"
+    "build-desktop-app": "nx run desktop:build:development"
   },
   "private": true,
   "dependencies": {

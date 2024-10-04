@@ -10,7 +10,7 @@
       "windows": {
           "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron.cmd"
       },
-      "program": "${workspaceFolder}/dist/apps/cf-electron/main.js",
+      "program": "${workspaceFolder}/dist/apps/desktop/main.js",
       "outputCapture": "std",
       "preLaunchTask": "build_and_debug_desktop",
       "postDebugTask": "terminate_debug_session",
@@ -29,7 +29,7 @@
       "windows": {
           "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron.cmd"
       },
-      "program": "${workspaceFolder}/dist/apps/cf-electron/main.js",
+      "program": "${workspaceFolder}/dist/apps/desktop/main.js",
       "outputCapture": "std",
       "preLaunchTask": "build_and_debug_desktop_main",
       "postDebugTask": "terminate_debug_session",
