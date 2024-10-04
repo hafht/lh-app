@@ -1,0 +1,19 @@
+<svg viewBox="0 0 30 30" width="30" height="30" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<defs>
+			<style>
+					.cls-1,.cls-2{fill:#3E82FB;}.cls-1{opacity:0.4;}
+					@keyframes spin{
+							0%{transform:rotate(0)}
+							100%{transform:rotate(360deg)}
+					}
+					#kelvin-loading{
+							transform-origin:center center;
+							animation:spin 1s linear infinite;
+					}
+			</style>
+	</defs>
+  <g id="kelvin-loading">
+    <path class="cls-1" d="M15,2 C22.1797017,2 28,7.82029825 28,15 C28,22.1797017 22.1797017,28 15,28 C7.82029825,28 2,22.1797017 2,15 C2,7.82029825 7.82029825,2 15,2 L15,2 Z M15,0 C6.71572875,0 0,6.71572875 0,15 C0,23.2842712 6.71572875,30 15,30 C23.2842712,30 30,23.2842712 30,15 C30,11.0217527 28.4196474,7.20644396 25.6066017,4.39339828 C22.793556,1.58035261 18.9782473,0 15,0 Z" id="circle-bottom" opacity="0.4"></path>
+    <path class="cls-2" d="M15,28 L15,30 C23.2842712,30 30,23.2842712 30,15 L28,15 C28,18.4478144 26.6303611,21.7544152 24.1923882,24.1923882 C21.7544152,26.6303611 18.4478144,28 15,28 L15,28 Z" id="Path"></path>
+  </g>
+</svg>

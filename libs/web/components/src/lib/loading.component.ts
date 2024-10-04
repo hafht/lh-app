@@ -1,15 +1,16 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CopyrightComponent } from './components/copy-right.component';
 
 @Component({
   selector: 'cf-app-loading-page',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CopyrightComponent],
   template: `
      <div class="login-page">
     <div class="login-header">
       <div class="login-logo">
-          <!-- <img src="../../assets/images/light-logo.svg" alt=""> -->
+          <img src="/assets/components/images/light-logo.svg" alt="test">
       </div>
     </div>
     <div class="loading-content">
@@ -18,7 +19,7 @@ import { CommonModule } from '@angular/common';
         <p id="loading-message">Loading...</p>
       </div>
     </div>
-    <!-- <app-copyright></app-copyright> -->
+    <cf-app-copyright></cf-app-copyright>
   </div>
   `,
   // styleUrl: './components.component.scss',

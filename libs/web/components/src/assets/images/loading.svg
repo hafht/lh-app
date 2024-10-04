@@ -1,0 +1,19 @@
+<svg id="circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60">
+    <defs>
+        <style>
+            .cls-1,.cls-2{fill:#3E82FB;}.cls-1{opacity:0.4;}
+            @keyframes spin{
+                0%{transform:rotate(0)}
+                100%{transform:rotate(360deg)}
+            }
+            #kelvin-loading{
+                transform-origin:center center;
+                animation:spin 1s linear infinite;
+            }
+        </style>
+    </defs>
+    <g id="kelvin-loading">
+        <path id="circle-bottom" class="cls-1" d="M30,4A26,26,0,1,1,4,30,26,26,0,0,1,30,4m0-4A30,30,0,1,0,60,30,30,30,0,0,0,30,0Z"/>
+        <path class="cls-2" d="M30,56v4A30,30,0,0,0,60,30H56A26,26,0,0,1,30,56Z"/>
+    </g>
+</svg>

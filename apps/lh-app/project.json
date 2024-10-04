@@ -16,8 +16,22 @@
         "polyfills": ["zone.js"],
         "tsConfig": "apps/lh-app/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "assets": ["apps/lh-app/src/favicon.ico", "apps/lh-app/src/assets"],
-        "styles": ["apps/lh-app/src/styles.scss"],
+        "assets": [
+          "apps/lh-app/src/favicon.ico",
+          "apps/lh-app/src/assets",
+          {
+            "input": "libs/web/components/src/assets",
+            "glob": "**/*",
+            "output": "assets/components"
+          }
+
+        ],
+        "styles": [
+          "apps/lh-app/src/styles.scss"
+        ],
+        "stylePreprocessorOptions": {
+          "includePaths": [ "libs/web/components/src/assets/styles" ]
+      },
         "scripts": []
       },
       "configurations": {
