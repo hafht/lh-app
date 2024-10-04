@@ -26,5 +26,7 @@ import { CopyrightComponent } from './components/copy-right.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoadingPageComponent {
-
+  ngOnInit() {
+    console.log('init')
+  }
 }
