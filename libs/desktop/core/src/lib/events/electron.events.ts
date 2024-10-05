@@ -4,7 +4,6 @@
  */
 
 import { app, ipcMain } from 'electron';
-import { CFAppCore } from '../core';
 import App from '../app';
 
 export class ElectronEvents {
@@ -14,8 +13,19 @@ export class ElectronEvents {
 }
 
 // Retrieve app version
-ipcMain.handle('get-app-version', (event) => {
+ipcMain.handle('get-app-version', () => {
   return App.application.getVersion();
+});
+
+ipcMain.handle('get-app-name', () => {
+  return App.application.getName();
+});
+
+ipcMain.handle('get-app-info', () => {
+  return {
+    appVersion: App.application.getVersion(),
+    appName: App.application.getName()
+  };
 });
 
 // Handle App termination

@@ -1,0 +1,56 @@
+.loading-page {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  background-image: no-repeat top left;
+  background-size: cover;
+
+  .loading-header{
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    justify-content: space-between;
+    height: 93px;
+    margin: 32px 50px 0 50px;
+    .logo{
+      display: inline-flex;
+      align-items: center;
+      svg {
+        height: 70px;
+        width: auto;
+      }
+      img{
+        height:93px;
+        margin-right:12px;
+      }
+      label{
+        width:140px;
+        color:#000;
+        line-height:32px;
+        font-weight: 900;
+        font-size: 38px;
+        letter-spacing: -0.5px;
+      }
+    }
+    .login-app-name{
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 2.47px;
+      font-size:45px;
+      white-space: nowrap;
+      height:57px;
+      border-radius:7.5px;
+      border:3px solid #000;
+      display: inline-flex;
+      align-items: center;
+      padding:0 12px;
+    }
+  }
+	.loading-content{
+		flex-grow:1;
+		padding-left:29px;
+    padding-top: 24vh;
+	}
+}

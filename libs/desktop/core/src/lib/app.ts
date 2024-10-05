@@ -2,6 +2,7 @@ import { BrowserWindow, shell, screen } from 'electron';
 import { join } from 'path';
 import { format } from 'url';
 import { CFAppCore } from './core';
+import { isTrustedUrl } from './utils/validate-external-url';
 
 export default class App {
   // Keep a global reference of the window object, if you don't, the window will
@@ -98,8 +99,17 @@ export default class App {
       App.mainWindow = null;
     });
 
-    App.mainWindow.webContents.on('page-title-updated', (_) => {
+    App.mainWindow.webContents.on('page-title-updated', () => {
       App.mainWindow.setTitle(`${App.application.getName()} v${App.application.getVersion()}`)
+    })
+
+    App.mainWindow.webContents.setWindowOpenHandler((_) => {
+      if (isTrustedUrl(_.url)) {
+        shell.openExternal(_.url)
+      } else {
+        console.warn(`Prevent open url: ${_.url}`, _)
+      }
+      return { action: 'deny' }
     })
   }
 

@@ -17,11 +17,17 @@
     "paths": {
       "@creative-force/cf-app-core": ["libs/desktop/core/src/index.ts"],
       "@creative-force/cf-app-preload": ["libs/desktop/preload/src/index.ts"],
+      "@creative-force/cf-app-shared": ["libs/shared/src/index.ts"],
       "@creative-force/cf-app-types": ["libs/types/src/index.ts"],
       "@creative-force/cf-app-web-component": [
         "libs/web/components/src/index.ts"
       ]
-    }
+    },
+    "typeRoots": ["libs/types", "node_modules/@types"],
+    "types": [
+      "libs/types/src/lib/window.d.ts"
+    ]
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": ["node_modules", "tmp"],
+  "files": ["libs/types/src/lib/window.d.ts"]
 }

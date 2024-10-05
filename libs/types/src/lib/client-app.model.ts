@@ -1,0 +1,1 @@
+export type CFAppName = 'kelvin' | 'hue' | 'ink' | 'luma'

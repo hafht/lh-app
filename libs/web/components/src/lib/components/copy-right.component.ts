@@ -1,62 +1,70 @@
-import {Component, inject} from '@angular/core'
+import { HELPER_LINKS } from '@creative-force/cf-app-shared';
+import { Component, OnInit, signal } from '@angular/core';
 
 @Component({
   selector: 'cf-app-copyright',
   template: `
-   <div class="login-copyright">
-    <p>
-      Copyright © <span id="current-year">{{currentYear}}</span> Creative Force. All rights reserved.<br>
-      <a (click)="privacyAndPolicy()">Privacy Policy</a> | <a (click)="termOfService()">Terms of Service</a> | <a
-        (click)="eula()">End User Licensing Agreement</a>
-    </p>
-    <p>Kelvin<br />Version <span id="app-version">{{appVersion}}</span></p>
-  </div>
+    <div class="login-copyright">
+      <p>
+        Copyright © <span id="current-year">{{ currentYear }}</span> Creative
+        Force. All rights reserved.<br />
+        <a target="_blank" [href]="privacyUrl">Privacy Policy</a> |
+        <a target="_blank" [href]="termOfServiceUrl">Terms of Service</a> |
+        <a target="_blank" [href]="eulaUrl">End User Licensing Agreement</a>
+      </p>
+      <p>
+        {{ appInfo().appName }}<br />Version
+        <span id="app-version">{{ appInfo().appVersion }}</span>
+      </p>
+    </div>
   `,
-  styles: [`.login-copyright {
-    height:77px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #1B1A3D;
-    color:#fff;
-    font-size:13px;
-    line-height:18px;
-    letter-spacing: 0.72px;
-    padding:5px 25px 5px 29px;
-    p:last-of-type{
-      text-align: right;
-    }
-    a{
-      cursor: pointer;
-      &:hover{
-        text-decoration: underline;
+  styles: [
+    `
+      .login-copyright {
+        height: 77px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #1b1a3d;
+        color: #fff;
+        font-size: 13px;
+        line-height: 18px;
+        letter-spacing: 0.72px;
+        padding: 5px 25px 5px 29px;
+        p:last-of-type {
+          text-align: right;
+        }
+        a {
+          color: #fff;
+          cursor: pointer;
+          &:hover {
+            text-decoration: underline;
+          }
+        }
       }
-    }
-  }`],
-  standalone: true
+    `,
+  ],
+  standalone: true,
 })
-export class CopyrightComponent {
-  appVersion = 'test'
+export class CopyrightComponent implements OnInit {
+  appInfo = signal<{
+    appName: string;
+    appVersion: string;
+  }>({
+    appName: '',
+    appVersion: '',
+  });
   currentYear = new Date().getFullYear();
+  privacyUrl = HELPER_LINKS.privacyUrl;
+  termOfServiceUrl = HELPER_LINKS.termOfServiceUrl;
+  eulaUrl = HELPER_LINKS.eulaUrl;
 
-  // private _electronService = inject(ElectronService)
-
-  ngAfterViewInit() {
-    // this.appVersion =  Static.EnvironmentInformation.appVersion;
+  ngOnInit(): void {
+    // load data
+    window.CFAppAPI.getAppInfo().then((res) => {
+      this.appInfo.set(res);
+    }).catch(error => {
+      console.error('Get app info has exception', error)
+    });
   }
-
-  termOfService() {
-    // this._electronService.openUrlExternal(Constants.termOfServiceUrl);
-  }
-
-  privacyAndPolicy() {
-    // this._electronService.openUrlExternal(Constants.privacyUrl);
-  }
-
-  eula() {
-    // this._electronService.openUrlExternal(
-    //   "https://www.creativeforce.io/legal/eula/"
-    // );
-  }
-
 }
