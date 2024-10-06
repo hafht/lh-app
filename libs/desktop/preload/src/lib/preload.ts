@@ -5,4 +5,5 @@ export const commonAPI = {
   getAppName: () => ipcRenderer.invoke('get-app-name'),
   getAppInfo: () => ipcRenderer.invoke('get-app-info'),
   platform: process.platform,
+  startup: () => ipcRenderer.send('start-up'),
 }

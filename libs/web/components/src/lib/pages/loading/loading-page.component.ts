@@ -1,8 +1,9 @@
 import { CFAppName } from '@creative-force/cf-app-types';
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CopyrightComponent } from '../../components/copy-right.component';
 import { LoadingComponent } from '../../components/loading/loading.component';
+import { WINDOW } from '@creative-force/cf-app-web/data-access';
 
 @Component({
   selector: 'cf-app-loading-page',
@@ -19,6 +20,12 @@ import { LoadingComponent } from '../../components/loading/loading.component';
   styleUrl: './loading-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoadingPageComponent{
-  @Input() appName: CFAppName = 'kelvin'
+export class LoadingPageComponent implements AfterViewInit{
+  @Input() appName!: CFAppName;
+
+  private _window = inject(WINDOW)
+
+  ngAfterViewInit(): void {
+    this._window.CFAppAPI.startup()
+  }
 }

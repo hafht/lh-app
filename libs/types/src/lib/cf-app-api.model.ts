@@ -3,6 +3,7 @@ export interface ICFAppAPI {
   getAppName: () => Promise<string>
   getAppInfo: () => Promise<GetAppInfoReturn>
   platform: () => string;
+  startup: () => void;
 }
 
 export type GetAppInfoReturn = {

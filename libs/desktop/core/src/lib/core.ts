@@ -1,7 +1,7 @@
+import { MainLogger } from './logger';
 import { Main } from './main';
 import { IAppConfig } from './models/config.model';
 import { IEnvironment } from './models/environment.model';
-
 class _CFAppCore {
   private _environment: IEnvironment = Object.create({});
   private _appConfig: IAppConfig = Object.create({});
@@ -9,9 +9,9 @@ class _CFAppCore {
   bootstrapDesktopApp(env: IEnvironment, config: IAppConfig) {
     this._environment = env;
     this._appConfig = config;
-    console.log('bootstrapDesktopApp', { env, config });
     Main.initialize();
-
+    MainLogger.initialize();
+    MainLogger.info('Log from the main process', {env, config});
     // bootstrap app
     Main.bootstrapApp();
     Main.bootstrapAppEvents();

@@ -24,8 +24,20 @@
               "with": "apps/desktop/src/environments/environment.prod.ts"
             }
           ]
+        },
+        "development": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/desktop/src/environments/environment.ts",
+              "with": "apps/desktop/src/environments/environment.dev.ts"
+            }
+          ]
         }
-      }
+      },
+      "defaultConfiguration": "development"
     },
     "serve": {
       "executor": "nx-electron:execute",

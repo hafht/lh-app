@@ -51,6 +51,11 @@
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
+    },
+    "@nx/angular:ng-packagr-lite": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     }
   },
   "generators": {
@@ -68,7 +73,7 @@
       "style": "scss"
     }
   },
-  "nxCloudAccessToken": "YWQ5ZTA5NDctMWRjMC00MTNjLTk5N2UtYzE0YTdjNzgzN2NmfHJlYWQtd3JpdGU=",
+  "neverConnectToCloud": true,
   "defaultProject": "desktop",
   "release": {
     "version": {

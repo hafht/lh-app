@@ -10,7 +10,7 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2020", "dom"],
+    "lib": ["es2021", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
@@ -21,12 +21,13 @@
       "@creative-force/cf-app-types": ["libs/types/src/index.ts"],
       "@creative-force/cf-app-web-component": [
         "libs/web/components/src/index.ts"
+      ],
+      "@creative-force/cf-app-web/data-access": [
+        "libs/web/data-access/src/index.ts"
       ]
     },
     "typeRoots": ["libs/types", "node_modules/@types"],
-    "types": [
-      "libs/types/src/lib/window.d.ts"
-    ]
+    "types": ["libs/types/src/lib/window.d.ts"]
   },
   "exclude": ["node_modules", "tmp"],
   "files": ["libs/types/src/lib/window.d.ts"]

@@ -1,8 +1,5 @@
 import { IEnvironment } from "@creative-force/cf-app-core";
+import {environment as devEnv} from './environment.dev'
 
-declare const __BUILD_VERSION__: string;
-
-export const environment: IEnvironment = {
-  production: false,
-  version: __BUILD_VERSION__,
-};
+// debug
+export const environment: IEnvironment = devEnv;

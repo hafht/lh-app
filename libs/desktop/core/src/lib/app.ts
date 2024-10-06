@@ -3,6 +3,7 @@ import { join } from 'path';
 import { format } from 'url';
 import { CFAppCore } from './core';
 import { isTrustedUrl } from './utils/validate-external-url';
+import { MainMenu } from './main-menu';
 
 export default class App {
   // Keep a global reference of the window object, if you don't, the window will
@@ -62,7 +63,7 @@ export default class App {
     const workAreaSize = screen.getPrimaryDisplay().workAreaSize;
     const width = Math.min(1280, workAreaSize.width || 1280);
     const height = Math.min(720, workAreaSize.height || 720);
-
+    MainMenu.setDefaultMenu()
     // Create the browser window.
     App.mainWindow = new BrowserWindow({
       width: width,

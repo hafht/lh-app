@@ -1,5 +1,7 @@
 import { HELPER_LINKS } from '@creative-force/cf-app-shared';
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import {WINDOW} from '@creative-force/cf-app-web/data-access'
+
 
 @Component({
   selector: 'cf-app-copyright',
@@ -47,6 +49,8 @@ import { Component, OnInit, signal } from '@angular/core';
   standalone: true,
 })
 export class CopyrightComponent implements OnInit {
+  private _window = inject(WINDOW)
+
   appInfo = signal<{
     appName: string;
     appVersion: string;
@@ -61,9 +65,9 @@ export class CopyrightComponent implements OnInit {
 
   ngOnInit(): void {
     // load data
-    window.CFAppAPI.getAppInfo().then((res) => {
+    this._window.CFAppAPI.getAppInfo().then((res) => {
       this.appInfo.set(res);
-    }).catch(error => {
+    }).catch((error: Error) => {
       console.error('Get app info has exception', error)
     });
   }

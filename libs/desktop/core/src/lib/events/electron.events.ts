@@ -5,6 +5,7 @@
 
 import { app, ipcMain } from 'electron';
 import App from '../app';
+import StartUp from '../startup';
 
 export class ElectronEvents {
   static bootstrapElectronEvents(): Electron.IpcMain {
@@ -31,4 +32,10 @@ ipcMain.handle('get-app-info', () => {
 // Handle App termination
 ipcMain.on('quit', (event, code) => {
   app.exit(code);
-});
+})
+
+
+// startup
+ipcMain.on('start-up', () => {
+  StartUp.main();
+})
