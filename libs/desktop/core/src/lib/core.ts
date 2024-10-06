@@ -1,4 +1,4 @@
-import { MainLogger } from './logger';
+import { ElectronLogger, MainLogger } from './logger';
 import { Main } from './main';
 import { IAppConfig } from './models/config.model';
 import { IEnvironment } from './models/environment.model';
@@ -10,7 +10,7 @@ class _CFAppCore {
     this._environment = env;
     this._appConfig = config;
     Main.initialize();
-    MainLogger.initialize();
+    ElectronLogger.initialize();
     MainLogger.info('Log from the main process', {env, config});
     // bootstrap app
     Main.bootstrapApp();
