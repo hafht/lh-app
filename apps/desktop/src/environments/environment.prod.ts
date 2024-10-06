@@ -5,5 +5,6 @@ declare const __BUILD_VERSION__: string;
 export const environment: IEnvironment = {
   production: true,
   version: __BUILD_VERSION__,
-  buildEnv: 'prod'
+  buildEnv: 'prod',
+  cfAppName: 'luma'
 };

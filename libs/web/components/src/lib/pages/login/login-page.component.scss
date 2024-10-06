@@ -1,0 +1,41 @@
+.login-content{
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  .login-content-wrap {
+    margin-left: 45px;
+    margin-bottom: 65px;
+  }
+  }
+  
+  .app-name {
+    font-size: 112px;
+    color: #fff;
+    padding-left: 7px;
+    font-weight: 400;
+    font-family: 'Inter', sans-serif;
+    text-transform: capitalize;
+  }
+  .login-via-browser-message {
+    position: absolute;
+    font-size: 16px;
+    color: #fff;
+    padding-left: 10px;
+    padding-top: 10px;
+  }
+  .login-submit{
+    align-self: center;
+    margin-bottom:150px;
+    font-family:'Inter', sans-serif;
+    font-size:19px;
+    letter-spacing: 0.45px;
+    font-weight: 700;
+    color:#1B1A3D;
+    border:0;
+    border-radius:29.25px;
+    height:56px;
+    width: 173px;
+    box-shadow:0 0 15px 0 rgba(0,0,0,0.5);
+    background-color: #fff;
+  }

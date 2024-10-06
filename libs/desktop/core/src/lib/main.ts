@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from "electron";
+import { app } from "electron";
 import SquirrelEvents from "./events/squirrel.events";
 import App from "./app";
 import { ElectronEvents } from "./events/electron.events";
@@ -12,7 +12,7 @@ export class Main {
   }
 
   static bootstrapApp() {
-    App.main(app, BrowserWindow);
+    App.main();
   }
 
   static bootstrapAppEvents() {
