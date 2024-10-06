@@ -1,7 +1,7 @@
 import { toObservableSignal } from 'ngxtension/to-observable-signal';
 import { inject, Injectable, signal } from "@angular/core";
 import { LoggerService } from './logger.service';
-import { Subject, takeUntil, timer } from 'rxjs';
+import { Subject, take, takeUntil, timer } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -23,9 +23,10 @@ export class AuthService {
         ...state
       }
     })
-    this.logger.info('Starting login.')
+    this.logger.scope('auth').info('Starting login.')
     timer(3000).pipe(
-      takeUntil(this.cannel$)
+      takeUntil(this.cannel$),
+      take(1)
     ).subscribe(() => {
       this.state.update(state => {
         state.isProcessing = false
@@ -34,12 +35,12 @@ export class AuthService {
           ...state
         }
       })
-      this.logger.info('Finished login.')
+      this.logger.scope('auth').info('Finished login.')
     })
   }
 
   cancel() {
-    this.logger.info('User cancel login.')
+    this.logger.scope('auth').info('User cancel login.')
     this.cannel$.next();
     this.state.update(state => {
       state.isProcessing = false
