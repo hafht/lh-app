@@ -1,13 +1,13 @@
-import { Menu, MenuItem } from "electron";
-import { clearLogs } from "./logger";
+import { app, Menu, MenuItem } from "electron";
 import App from "./app";
+import { ElectronLogger } from "./logger";
 
 export class MainMenu {
   private static isMac = process.platform === 'darwin'
 
   private static get About() {
     return new MenuItem({
-      label: `About ${App.application.name}`,
+      label: `About ${app.name}`,
       click: () => {
         // MainBrowser.send(IPC_EVENTS.APP_SHOW_ABOUT_PAGE, null);
       },
@@ -22,7 +22,7 @@ export class MainMenu {
         {
           label: 'Clear Logs',
           click: () => {
-            clearLogs()
+            ElectronLogger.clearLogs()
           }
         }
       ]
@@ -35,7 +35,7 @@ export class MainMenu {
     if (MainMenu.isMac) {
       const applicationMenu = new Menu();
       applicationMenu.append(this.About);
-      const macApplicationMenuItem = new MenuItem({ label: App.application.name, submenu: applicationMenu });
+      const macApplicationMenuItem = new MenuItem({ label: app.name, submenu: applicationMenu });
       menubar.append(macApplicationMenuItem);
     }
     const helpMenu = new Menu();

@@ -1,3 +1,4 @@
+import { app } from 'electron';
 import { ElectronLogger, MainLogger } from './logger';
 import { Main } from './main';
 import { IAppConfig } from './models/config.model';
@@ -11,7 +12,11 @@ class _CFAppCore {
     this._appConfig = config;
     Main.initialize();
     ElectronLogger.initialize();
-    MainLogger.info('Log from the main process', {env, config});
+    MainLogger.info(`App starting with version ${app.getVersion()} - ${process.type}`, {
+      system: `${process.platform} ${process.arch}`,
+      electron: process.versions.electron,
+      isElectron: "browser" === process.type || "renderer" === process.type
+    });
     // bootstrap app
     Main.bootstrapApp();
     Main.bootstrapAppEvents();

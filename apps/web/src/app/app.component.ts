@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {LoadingPageComponent} from '@creative-force/cf-app-web-component'
-import { WINDOW } from '@creative-force/cf-app-web/data-access';
+import { LoggerService, } from '@creative-force/cf-app-web/data-access';
 @Component({
   standalone: true,
   imports: [RouterModule, CommonModule, LoadingPageComponent],
@@ -11,10 +11,8 @@ import { WINDOW } from '@creative-force/cf-app-web/data-access';
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements AfterViewInit {
-  private _window = inject(WINDOW)
+  private _logger = inject(LoggerService)
   ngAfterViewInit(): void {
-      console.log('aa', this._window.__electronLog)
-      this._window.__electronLog.debug('test log')
   }
   
 }

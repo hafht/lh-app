@@ -6,6 +6,7 @@
 import { app, ipcMain } from 'electron';
 import App from '../app';
 import StartUp from '../startup';
+import { isDebug } from '../utils/electron';
 
 export class ElectronEvents {
   static bootstrapElectronEvents(): Electron.IpcMain {
@@ -15,17 +16,18 @@ export class ElectronEvents {
 
 // Retrieve app version
 ipcMain.handle('get-app-version', () => {
-  return App.application.getVersion();
+  return app.getVersion();
 });
 
 ipcMain.handle('get-app-name', () => {
-  return App.application.getName();
+  return app.getName();
 });
 
 ipcMain.handle('get-app-info', () => {
   return {
-    appVersion: App.application.getVersion(),
-    appName: App.application.getName()
+    appVersion: app.getVersion(),
+    appName: app.getName(),
+    isDebug: isDebug(),
   };
 });
 
@@ -38,4 +40,8 @@ ipcMain.on('quit', (event, code) => {
 // startup
 ipcMain.on('start-up', () => {
   StartUp.main();
+})
+
+ipcMain.on('is-debug', (_) => {
+  _.returnValue = isDebug()
 })

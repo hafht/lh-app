@@ -1,4 +1,4 @@
 import { commonAPI } from '@creative-force/cf-app-preload';
-import { contextBridge, ipcRenderer } from 'electron';
+import { contextBridge } from 'electron';
 
 contextBridge.exposeInMainWorld('CFAppAPI', commonAPI);

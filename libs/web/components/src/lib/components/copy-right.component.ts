@@ -1,6 +1,6 @@
+import { Component, inject } from '@angular/core';
 import { HELPER_LINKS } from '@creative-force/cf-app-shared';
-import { Component, inject, OnInit, signal } from '@angular/core';
-import {WINDOW} from '@creative-force/cf-app-web/data-access'
+import { ElectronService } from '@creative-force/cf-app-web/data-access';
 
 
 @Component({
@@ -48,27 +48,15 @@ import {WINDOW} from '@creative-force/cf-app-web/data-access'
   ],
   standalone: true,
 })
-export class CopyrightComponent implements OnInit {
-  private _window = inject(WINDOW)
+export class CopyrightComponent {
+  private _electronService = inject(ElectronService)
 
-  appInfo = signal<{
-    appName: string;
-    appVersion: string;
-  }>({
-    appName: '',
-    appVersion: '',
-  });
+  get appInfo() {
+    return this._electronService.appInfo
+  }
+ 
   currentYear = new Date().getFullYear();
   privacyUrl = HELPER_LINKS.privacyUrl;
   termOfServiceUrl = HELPER_LINKS.termOfServiceUrl;
   eulaUrl = HELPER_LINKS.eulaUrl;
-
-  ngOnInit(): void {
-    // load data
-    this._window.CFAppAPI.getAppInfo().then((res) => {
-      this.appInfo.set(res);
-    }).catch((error: Error) => {
-      console.error('Get app info has exception', error)
-    });
-  }
 }

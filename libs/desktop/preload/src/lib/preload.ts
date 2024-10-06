@@ -6,4 +6,5 @@ export const commonAPI = {
   getAppInfo: () => ipcRenderer.invoke('get-app-info'),
   platform: process.platform,
   startup: () => ipcRenderer.send('start-up'),
+  isDebug: () => ipcRenderer.sendSync('is-debug')
 }

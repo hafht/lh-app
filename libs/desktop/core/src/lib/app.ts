@@ -1,16 +1,15 @@
-import { BrowserWindow, shell, screen } from 'electron';
+import { BrowserWindow, shell, screen, app } from 'electron';
 import { join } from 'path';
 import { format } from 'url';
 import { CFAppCore } from './core';
 import { isTrustedUrl } from './utils/validate-external-url';
 import { MainMenu } from './main-menu';
+import { isDebug } from './utils/electron';
 
 export default class App {
   // Keep a global reference of the window object, if you don't, the window will
   // be closed automatically when the JavaScript object is garbage collected.
   static mainWindow: Electron.BrowserWindow;
-  static application: Electron.App;
-  static BrowserWindow;
 
   public static isDevelopmentMode() {
     const isEnvironmentSet: boolean = 'ELECTRON_IS_DEV' in process.env;
@@ -22,7 +21,7 @@ export default class App {
 
   private static onWindowAllClosed() {
     if (process.platform !== 'darwin') {
-      App.application.quit();
+      app.quit();
     }
   }
 
@@ -81,7 +80,7 @@ export default class App {
     // if main window is ready to show, close the splash window and show the main window
     App.mainWindow.once('ready-to-show', () => {
       App.mainWindow.show();
-      if (!App.application.isPackaged) {
+      if (isDebug()) {
         App.mainWindow.webContents.openDevTools()
       }
     });
@@ -101,7 +100,7 @@ export default class App {
     });
 
     App.mainWindow.webContents.on('page-title-updated', () => {
-      App.mainWindow.setTitle(`${App.application.getName()} v${App.application.getVersion()}`)
+      App.mainWindow.setTitle(`${app.getName()} v${app.getVersion()}`)
     })
 
     App.mainWindow.webContents.setWindowOpenHandler((_) => {
@@ -116,7 +115,7 @@ export default class App {
 
   private static loadMainWindow() {
     // load the index.html of the app.
-    if (!App.application.isPackaged) {
+    if (isDebug()) {
       App.mainWindow.loadURL(`http://localhost:${CFAppCore.appConfig().development.rendererAppPort}`);
     } else {
       App.mainWindow.loadURL(
@@ -129,17 +128,29 @@ export default class App {
     }
   }
 
-  static main(app: Electron.App, browserWindow: typeof BrowserWindow) {
+  static main() {
     // we pass the Electron.App object and the
     // Electron.BrowserWindow into this function
     // so this class has no dependencies. This
     // makes the code easier to write tests for
+    const gotTheLock = app.requestSingleInstanceLock();
+    if (!gotTheLock) {
+      app.quit();
+      return;
+    }
+    app.on('second-instance', () => {
+      // Someone tried to run a second instance, we should focus our window.
+      const mainWindow = App.mainWindow;
+      if (mainWindow) {
+        if (mainWindow.isMinimized()) {
+          mainWindow.restore();
+        }
+        mainWindow.focus();
+      }
+    });
 
-    App.BrowserWindow = browserWindow;
-    App.application = app;
-
-    App.application.on('window-all-closed', App.onWindowAllClosed); // Quit when all windows are closed.
-    App.application.on('ready', App.onReady); // App is ready to load data
-    App.application.on('activate', App.onActivate); // App is activated
+    app.on('window-all-closed', App.onWindowAllClosed); // Quit when all windows are closed.
+    app.on('ready', App.onReady); // App is ready to load data
+    app.on('activate', App.onActivate); // App is activated
   }
 }
