@@ -1,12 +1,12 @@
 import { Route } from '@angular/router';
-import { LoadingPageComponent, LoginPageComponent } from '@creative-force/cf-app-web-component';
+import { LoadingPageComponent, LoginPageComponent } from '@creative-force/cf-app-web/features';
 
 export const appRoutes: Route[] = [
   {
     path: '', component: LoadingPageComponent,
-  }, 
+  },
   {
-    path: 'app', 
+    path: 'app',
     component: LoginPageComponent, pathMatch: 'full'
     // children: [
     //   {
