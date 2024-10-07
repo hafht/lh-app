@@ -26,6 +26,9 @@
         "libs/web/data-access/src/index.ts"
       ],
       "@creative-force/cf-app-web/features": ["libs/web/features/src/index.ts"],
+      "@creative-force/cf-app/luma-renderer/feature": [
+        "libs/luma-renderer/feature/src/index.ts"
+      ],
       "@lh-app/builder": ["tools/builder/src/index.ts"],
       "@lh-app/my-plugin": ["tools/my-plugin/src/index.ts"]
     },

@@ -1,9 +1,9 @@
 import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { appRoutes } from './app.routes';
+import { lumaWebShellRoutes } from '@creative-force/cf-app/luma-renderer/feature';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(appRoutes), 
+    provideRouter(lumaWebShellRoutes), 
    ],
 };

@@ -5,5 +5,10 @@ type AppWindow = Window & {
   CFAppAPI: ICFAppAPI
 }
 export const WINDOW = new InjectionToken<AppWindow>('Global window object', {
-  factory: () => window as any
+  factory: () => {
+    if (!window.CFAppAPI) {
+      window.CFAppAPI = Object.create({})
+    }
+    return window as any
+  }
 })
