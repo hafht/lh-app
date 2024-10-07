@@ -1,7 +1,21 @@
 import { toObservableSignal } from 'ngxtension/to-observable-signal';
 import { inject, Injectable, signal } from "@angular/core";
 import { LoggerService } from './logger.service';
-import { Subject, take, takeUntil, timer } from 'rxjs';
+import {filter, Subject, take, takeUntil, timer} from 'rxjs';
+import {UserToken} from "@creative-force/cf-app-types";
+import {injectLocalStorage} from "ngxtension/inject-local-storage";
+
+interface AuthState {
+  isProcessing?: boolean;
+  userToken?: UserToken;
+  error?: string;
+}
+
+const DEFAULT_STATE: AuthState = {
+  isProcessing: undefined,
+  userToken: undefined
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -9,18 +23,34 @@ import { Subject, take, takeUntil, timer } from 'rxjs';
 export class AuthService {
   private logger = inject(LoggerService)
 
-  state = toObservableSignal(signal<AuthState>({
-    isProcessing: false,
-    data: null
-  }))
+  private userTokenStore = injectLocalStorage<any>('userToken')
+
+  state = toObservableSignal(signal<AuthState>({...DEFAULT_STATE}))
 
   private cannel$ = new Subject<void>();
 
+
+  constructor() {
+    // listen event
+    this.state.pipe(
+      filter(s => s.isProcessing === false)
+    ).subscribe(state => {
+      this.userTokenStore.set(state.userToken)
+    })
+  }
+
+  isAuthenticated(): boolean {
+    // get token from store
+    const token = this.userTokenStore()
+    return !!token
+  }
+
+
   login() {
     this.state.update(state => {
-      state.isProcessing = true
       return {
-        ...state
+        ...DEFAULT_STATE,
+        isProcessing: true
       }
     })
     this.logger.scope('auth').info('Starting login.')
@@ -29,10 +59,10 @@ export class AuthService {
       take(1)
     ).subscribe(() => {
       this.state.update(state => {
-        state.isProcessing = false
-        state.data = true
         return {
-          ...state
+          ...state,
+          isProcessing: false,
+          userToken: {} as any
         }
       })
       this.logger.scope('auth').info('Finished login.')
@@ -42,19 +72,17 @@ export class AuthService {
   cancel() {
     this.logger.scope('auth').info('User cancel login.')
     this.cannel$.next();
-    this.state.update(state => {
-      state.isProcessing = false
-      state.data = null;
-      state.error = ''
-      return {
-        ...state
-      }
+    this.state.set( {
+      ...DEFAULT_STATE,
+      isProcessing: false
+    })
+  }
+
+  logout() {
+    this.state.set({
+      ...DEFAULT_STATE,
+      isProcessing: false
     })
   }
 }
 
-export interface AuthState {
-  isProcessing: boolean;
-  data: any;
-  error?: string;
-}
