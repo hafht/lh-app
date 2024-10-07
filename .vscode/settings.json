@@ -4,7 +4,9 @@
     "**/npm-debug*": true,
     "**/.DS_Store": true,
     "**/*.js.map": true,
-    "**/*.js": { "when": "$(basename).ts" },
+    "**/*.js": {
+      "when": "$(basename).ts"
+    },
     "node_modules/": true,
     "dist/": false,
     ".idea/": true,
@@ -12,5 +14,6 @@
     "**/*.lock": true,
     ".nx": true
   },
-  "editor.formatOnSave": false
+  "editor.formatOnSave": false,
+  "eslint.validate": ["json"]
 }

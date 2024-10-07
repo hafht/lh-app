@@ -1,0 +1,9 @@
+{
+  "executors": {
+    "publish-electron": {
+      "implementation": "./src/executors/publish-electron/executor",
+      "schema": "./src/executors/publish-electron/schema.json",
+      "description": " executor"
+    }
+  }
+}
