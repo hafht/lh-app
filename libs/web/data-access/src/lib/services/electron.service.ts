@@ -1,9 +1,7 @@
-import { inject, Injectable, signal } from "@angular/core";
-import { toObservable } from "@angular/core/rxjs-interop";
-import { ClientAppInfo } from "@creative-force/cf-app-types";
-import { map } from "rxjs";
-import { WINDOW } from "../di-tokens/window";
-import { LoggerService } from "./logger.service";
+import {inject, Injectable, signal} from "@angular/core";
+import {ClientAppInfo} from "@creative-force/cf-app-types";
+import {WINDOW} from "../di-tokens/window";
+import {LoggerService} from "./logger.service";
 
 @Injectable({
   providedIn: 'root'
@@ -23,16 +21,8 @@ export class ElectronService {
     return this._appInfo.asReadonly();
   }
 
-  // get appInfo$() {
-  //   return toObservable(this._appInfo)
-  // }
-
-  // get isStartedUp$() {
-  //   return toObservable(this._appInfo).pipe(map(v => v.isStartedUp))
-  // }
-
   constructor() {
-  
+
     this.loadAppInfo();
   }
 
