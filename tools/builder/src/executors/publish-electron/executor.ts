@@ -1,11 +1,21 @@
-import { PromiseExecutor } from '@nx/devkit';
+import { exec } from 'child_process';
+import  * as devKit from '@nx/devkit';
 import { ExecutorSchema } from './schema';
+import {executeCommand} from '../../../../utils/command'
 
-const runExecutor: PromiseExecutor<ExecutorSchema> = async (options) => {
-  console.log('Executor ran for ', options);
-  return {
-    success: true,
-  };
-};
+export interface PublishElectronExecutorOptions {
+  frontendProject: string
+}
 
-export default runExecutor;
+
+export default async function publishElectron(
+  options: PublishElectronExecutorOptions,
+  context: any
+): Promise<{ success: boolean }> {
+  console.log('Build main process')
+  await executeCommand(`npx nx run ${context.projectName}:build`)
+  console.log('Build renderer process')
+  await executeCommand(`npx nx run ${options.frontendProject}:build`)
+  return { success: true };
+}
+

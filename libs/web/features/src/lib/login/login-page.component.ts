@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
-import { LoadingComponent } from '@creative-force/cf-app-web-component';
+import { CopyrightComponent, LoadingComponent } from '@creative-force/cf-app-web-component';
 import { AuthService, ElectronService } from '@creative-force/cf-app-web/data-access';
-import { CopyrightComponent } from 'libs/web/components/src/lib/components/copy-right.component';
 
 @Component({
   selector: 'cf-app-login-page',

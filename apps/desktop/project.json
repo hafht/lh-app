@@ -64,16 +64,10 @@
         "outputPath": "dist/executables"
       }
     },
-    "echo": {
-      "executor": "@lh-app/my-plugin:echo",
-      "options": {
-        "textToEcho": "Hello World"
-      }
-    },
     "publish-electron": {
       "executor": "@lh-app/builder:publish-electron",
       "options": {
-        "textToEcho": "Hello World"
+        "frontendProject": "web"
       }
     },
     "lint": {
