@@ -14,12 +14,11 @@ export class AppComponent implements AfterViewInit {
   private _logger = inject(LoggerService)
   private  router = inject(Router)
   ngAfterViewInit(): void {
-
-    this.router.events
-      .pipe(filter((e) => e instanceof NavigationEnd))
-      .subscribe(e => {
-      console.log(e)
-    })
+    // this.router.events
+    //   .pipe(filter((e) => e instanceof NavigationEnd))
+    //   .subscribe(e => {
+    //   console.log(e)
+    // })
   }
 
 }
