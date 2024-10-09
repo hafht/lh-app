@@ -6,3 +6,8 @@ export * from './lib/core';
 // models
 export * from './lib/models/environment.model'
 export * from './lib/models/config.model'
+
+
+// utils
+
+export * from './lib/utils/electron'

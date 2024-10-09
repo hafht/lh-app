@@ -7,3 +7,15 @@ export const isElectron = () => {
 export const isDebug = () => {
   return !app.isPackaged
 }
+
+export class ElectronExternalApi {
+  static onAppReady(handler: Function) {
+    if (app?.isReady()) {
+      handler();
+    } else {
+      handler();
+    }
+  }
+}
+
+//
