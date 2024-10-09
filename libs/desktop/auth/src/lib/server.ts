@@ -52,7 +52,7 @@ export class AuthServer {
     this.server = null;
   }
 
-  private async listenRedirectUri(onSuccess: (url: string) => void, onError: () => void) {
+  private listenRedirectUri(onSuccess: (url: string) => void, onError: () => void) {
     const successTemplate = this.renderTemplate(this.clientId, 'success');
     const errorTemplate = this.renderTemplate(this.clientId, 'error');
 

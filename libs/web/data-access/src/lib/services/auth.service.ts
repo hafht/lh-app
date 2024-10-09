@@ -49,6 +49,7 @@ export class AuthService {
 
 
   login() {
+    this.logger.scope('auth').info(`Start login.`)
     this.state.update(state => {
       return {
         ...DEFAULT_STATE,
@@ -56,6 +57,7 @@ export class AuthService {
       }
     })
     this._window.CFAppAuthAPI.login().then(res => {
+      console.log('res', res)
       this.state.update(state => {
         return {
           ...state,
@@ -63,7 +65,7 @@ export class AuthService {
           userToken: res
         }
       })
-      this.logger.scope('auth').info('Finished login.')
+      this.logger.scope('auth').info(`Finished login.`)
     })
   }
 

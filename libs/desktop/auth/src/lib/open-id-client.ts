@@ -7,7 +7,7 @@ export default class OpenIdClient {
   private authClient!: Client;
   private authIssuer!: Issuer
   private accountApiConfig!: IAccountConfig;
-  private clientId!: CFAppClientId
+  clientId!: CFAppClientId
   private redirectUri!: string;
 
   constructor(config: {
@@ -21,9 +21,17 @@ export default class OpenIdClient {
     this.initialize()
   }
 
+  getCodeVerifier() {
+    return this.codeVerifier
+  }
+
   initialize() {
     this.initIssuer();
     this.initializeIClient([this.redirectUri]);
+  }
+
+  callbackParams(redirectUri: string) {
+    return this.authClient.callbackParams(redirectUri);
   }
 
   getAuthorizationUrl(): string {

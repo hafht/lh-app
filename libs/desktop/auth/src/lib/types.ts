@@ -12,3 +12,5 @@ export interface IAccountConfig {
 
 
 export type ViewContentType = keyof typeof VIEW_CONTENT;
+
+

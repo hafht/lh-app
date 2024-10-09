@@ -1,4 +1,5 @@
 import { AppInfo, CFAppName } from "./client-app.model";
+import {TokenSet} from "openid-client";
 
 export interface ICFAppAPI {
   getAppVersion: () => Promise<string>
@@ -11,6 +12,6 @@ export interface ICFAppAPI {
 
 
 export interface ICFAppAuthAPI {
-  login: () => Promise<any>
+  login: () => Promise<TokenSet>
   cancel: () => void
 }
