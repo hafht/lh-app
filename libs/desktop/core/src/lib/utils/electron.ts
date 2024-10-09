@@ -9,13 +9,18 @@ export const isDebug = () => {
 }
 
 export class ElectronExternalApi {
-  static onAppReady(handler: Function) {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  static onAppReady (handler: Function) {
     if (app?.isReady()) {
       handler();
     } else {
       handler();
     }
   }
-}
 
-//
+  static setPreloadFileForSessions(preloadFilePath: string) {
+    app.on('session-created', (session) => {
+      session.setPreloads([...session.getPreloads(), preloadFilePath]);
+    } )
+  }
+}

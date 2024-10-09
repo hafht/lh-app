@@ -10,3 +10,7 @@ export interface ICFAppAPI {
 }
 
 
+export interface ICFAppAuthAPI {
+  login: () => Promise<any>
+  cancel: () => void
+}

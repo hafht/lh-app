@@ -11,3 +11,7 @@ export * from './lib/models/config.model'
 // utils
 
 export * from './lib/utils/electron'
+
+// modules
+
+export  * from './lib/modules'

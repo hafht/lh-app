@@ -3,21 +3,26 @@ import { ElectronLogger, MainLogger } from './logger';
 import { Main } from './main';
 import { IAppConfig } from './models/config.model';
 import { IEnvironment } from './models/environment.model';
-import {CFAppAuthentication} from "@creative-force/cf-app/desktop/auth";
-
-import * as Electron from 'electron';
+import { IACFAppElectronBasedModule } from './modules';
 
 class _CFAppCore {
   private _environment: IEnvironment = Object.create({});
   private _appConfig: IAppConfig = Object.create({});
 
-  bootstrapDesktopApp(env: IEnvironment, config: IAppConfig) {
+  bootstrapDesktopApp(params: {
+    env: IEnvironment, config: IAppConfig, externalModules: IACFAppElectronBasedModule[]
+  }) {
+    const {env, config} = params
     this._environment = env;
     this._appConfig = config;
+
+    for (const module of params.externalModules) {
+      module.initialize()
+    }
+
     Main.initialize();
+
     ElectronLogger.initialize();
-    console.log('contextBridge 22', Electron.contextBridge)
-    CFAppAuthentication.initialize(env.cfAppName);
     MainLogger.info(`App starting with version ${app.getVersion()} - ${process.type}`, {
       system: `${process.platform} ${process.arch}`,
       electron: process.versions.electron,

@@ -20,7 +20,7 @@ export class LoggerService {
   scope(label: string) {
     return this.logger.scope(label)
   }
- 
+
   log(...params: any[]) {
     this.logger?.log(...params)
   }
@@ -31,7 +31,7 @@ export class LoggerService {
     this.logger?.info(...params)
   }
   warn(...params: any[]) {
-   
+
     this.logger?.warn(...params)
   }
   error(...params: any[]) {

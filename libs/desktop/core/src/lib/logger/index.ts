@@ -1,15 +1,17 @@
-// export const 
+// export const
 
-import log from 'electron-log/main'
+import log from 'electron-log/main';
+
 export class ElectronLogger {
   // Init electron renderer log
   private static readonly rendererLog = log
-  private static readonly mainLog = log.create({logId: 'main'})
+  private static readonly mainLog = log
 
   static readonly MainLog = ElectronLogger.mainLog
 
   static initialize() {
     // Renderer
+    // console.log('12')
     ElectronLogger.rendererLog.initialize({spyRendererConsole: false})
     ElectronLogger.rendererLog.scope.labelPadding = false
     ElectronLogger.rendererLog.transports.file.fileName = 'renderer.log'

@@ -4,6 +4,8 @@ import { LoggerService } from './logger.service';
 import {filter, Subject, take, takeUntil, timer} from 'rxjs';
 import {UserToken} from "@creative-force/cf-app-types";
 import {injectLocalStorage} from "ngxtension/inject-local-storage";
+import { ElectronService } from './electron.service';
+import { WINDOW } from '../di-tokens/window';
 
 interface AuthState {
   isProcessing?: boolean;
@@ -22,8 +24,8 @@ const DEFAULT_STATE: AuthState = {
 })
 export class AuthService {
   private logger = inject(LoggerService)
-
   private userTokenStore = injectLocalStorage<any>('userToken')
+  private _window = inject(WINDOW);
 
   state = toObservableSignal(signal<AuthState>({...DEFAULT_STATE}))
 
@@ -53,16 +55,12 @@ export class AuthService {
         isProcessing: true
       }
     })
-    this.logger.scope('auth').info('Starting login.')
-    timer(3000).pipe(
-      takeUntil(this.cannel$),
-      take(1)
-    ).subscribe(() => {
+    this._window.CFAppAuthAPI.login().then(res => {
       this.state.update(state => {
         return {
           ...state,
           isProcessing: false,
-          userToken: {} as any
+          userToken: res
         }
       })
       this.logger.scope('auth').info('Finished login.')
@@ -72,6 +70,7 @@ export class AuthService {
   cancel() {
     this.logger.scope('auth').info('User cancel login.')
     this.cannel$.next();
+    this._window.CFAppAuthAPI.cancel()
     this.state.set( {
       ...DEFAULT_STATE,
       isProcessing: false

@@ -8,3 +8,4 @@ export const commonAPI = {
   startup: () => ipcRenderer.invoke('start-up'),
   isDebug: () => ipcRenderer.sendSync('is-debug')
 }
+

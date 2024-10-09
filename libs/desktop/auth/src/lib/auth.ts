@@ -1,27 +1,55 @@
-import { Subject } from 'rxjs';
 import { CFAppClientId } from './types';
-import {ElectronExternalApi} from "@creative-force/cf-app-core";
-import {AuthPreload} from "./auth-preload";
+import { CFAppElectronBasedModule } from '@creative-force/cf-app-core';
+import { ipcMain } from 'electron';
+import { map, Subject, takeUntil, timer } from 'rxjs';
 
 
+class _CFAppAuthentication extends CFAppElectronBasedModule {
+  constructor(identify: string) {
+    super(identify);
+  }
 
-class _CFAppAuthentication {
-  readonly cancelToken$ = new Subject<void>();
+  private cancelToken$ = new Subject<void>()
 
-  initialize(clientId: CFAppClientId) {
+  initialize() {
+    super.initialize();
+    this.listenIPCEvents();
+  }
+
+  create(clientId: CFAppClientId) {
     console.log('initialize', clientId);
-    ElectronExternalApi.onAppReady(() => {
-      console.log('app ready - do init preload')
-      AuthPreload.initialize()
-    })
 
   }
 
+  private listenIPCEvents() {
+    ipcMain.handle('login', () => {
+      return this.login()
+
+    })
+    ipcMain.on('cancel', () => this.cancelToken$.next())
+  }
+
   login() {
-    console.log('login');
-    return true;
+    return new Promise((resolve, reject) => {
+      timer(1000).pipe(
+        map(() => {
+          console.log('login success');
+          return 'mock_data'
+        }),
+        takeUntil(this.cancelToken$),
+      ).subscribe({
+        next: (v) => {
+          console.log('login done', v)
+          resolve(v)
+        },
+        complete: () => {
+          console.log('login finished');
+          resolve(null)
+        }
+      })
+    })
   }
 
 }
 
-export const CFAppAuthentication = new _CFAppAuthentication();
+export const CFAppAuthentication = new _CFAppAuthentication('auth');
