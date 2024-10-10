@@ -30,8 +30,7 @@
       "@creative-force/cf-app/luma-renderer/feature": [
         "libs/luma-renderer/feature/src/index.ts"
       ],
-      "@lh-app/builder": ["tools/builder/src/index.ts"],
-      "@lh-app/my-plugin": ["tools/my-plugin/src/index.ts"]
+      "@lh-app/builder": ["tools/builder/src/index.ts"]
     },
     "typeRoots": ["libs/types", "node_modules/@types"],
     "types": ["libs/types/src/lib/window.d.ts"]
