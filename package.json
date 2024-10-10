@@ -66,7 +66,7 @@
     "jsonc-eslint-parser": "^2.1.0",
     "ng-packagr": "~18.2.0",
     "nx": "19.8.2",
-    "nx-electron": "19.0.0-alpha.1",
+    "nx-electron": "19.0.0-beta.1",
     "postcss": "^8.4.5",
     "postcss-url": "~10.1.3",
     "prettier": "^2.6.2",

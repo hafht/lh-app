@@ -5,6 +5,7 @@ import { CFAppCore } from './core';
 import { isTrustedUrl } from './utils/validate-external-url';
 import { MainMenu } from './main-menu';
 import { isDebug } from './utils/electron';
+import * as fs from 'node:fs';
 
 export default class App {
   // Keep a global reference of the window object, if you don't, the window will
@@ -41,7 +42,6 @@ export default class App {
   }
 
   private static onReady() {
-    console.log('[app R]')
     // This method will be called when Electron has finished
     // initialization and is ready to create browser windows.
     // Some APIs can only be used after this event occurs.
@@ -116,6 +116,7 @@ export default class App {
 
   private static loadMainWindow() {
     // load the index.html of the app.
+    console.log('Renderer file path', join(__dirname, '..', CFAppCore.appConfig().development.rendererAppName, 'browser','index.html'))
     if (isDebug()) {
       App.mainWindow.loadURL(`http://localhost:${CFAppCore.appConfig().development.rendererAppPort}`);
     } else {

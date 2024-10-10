@@ -1,3 +1,25 @@
 {
-  "$schema": "../../../../../node_modules/nx-electron/src/validation/maker.schema.json"
+  "$schema": "../../../../../node_modules/nx-electron/src/validation/maker.schema.json",
+  "appId": "com.creativeforce.luma.debug",
+  "copyright": "Copyright © 2020 Creativeforce.io, Inc.",
+  "artifactName": "Luma-${version}-${os}.${ext}",
+  "mac": {
+    "identity": null,
+    "icon": "/Users/haht/Documents/Workspace/lighthouseapp/builder/resources/luma-icon.icns",
+    "category": "public.app-category.productivity",
+    "publish": {
+      "provider": "generic",
+      "url": "https://download.creativeforce-dev.io/released-files.042024/debug/luma/mac"
+    },
+    "target": [
+      "zip",
+      "dmg"
+    ],
+    "hardenedRuntime": true,
+    "entitlements": "/Users/haht/Documents/Workspace/lighthouseapp/builder/resources/mac-electron.entitlements.plist",
+    "notarize": false
+  },
+  "dmg": {
+    "artifactName": "Luma-${version}-${os}.${ext}"
+  }
 }

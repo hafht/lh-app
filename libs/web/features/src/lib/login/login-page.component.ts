@@ -28,11 +28,11 @@ import {Router} from "@angular/router";
       <div class="login-content">
       <div class="login-content-wrap">
       <div class="app-name">{{appInfo().cfAppName}}</div>
-      <p *ngIf="authState.isProcessing" class="login-via-browser-message">
+      <p *ngIf="auth.state().isProcessing" class="login-via-browser-message">
         Go to the browser to complete login
       </p>
     </div>
-    <button type="submit" class="login-submit" (click)="authState.isProcessing ? cancel() : login()">{{authState.isProcessing ? 'Cancel' : 'Log in'}}</button>
+    <button type="submit" class="login-submit" (click)="auth.state().isProcessing ? cancel() : login()">{{auth.state().isProcessing ? 'Cancel' : 'Log in'}}</button>
       </div>
     </cf-app-loading>
   `,
@@ -41,16 +41,14 @@ import {Router} from "@angular/router";
 })
 export class LoginPageComponent implements OnInit{
   private electron = inject(ElectronService)
-  private auth = inject(AuthService)
+  public auth = inject(AuthService)
   private destroy$ = injectDestroy();
   private router = inject(Router);
   get appInfo() {
     return this.electron.appInfo
   }
 
-  get authState() {
-    return this.auth.state()
-  }
+
 
   private rememberLoggedIn$ = of(this.auth.isAuthenticated())
     .pipe(takeUntil(this.destroy$));

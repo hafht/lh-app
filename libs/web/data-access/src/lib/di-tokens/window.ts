@@ -1,10 +1,16 @@
 import { InjectionToken } from "@angular/core"
-import { ICFAppAPI } from "@creative-force/cf-app-types"
+import { ICFAppAPI, ICFAppAuthAPI } from '@creative-force/cf-app-types';
 
-type AppWindow = Window & {
-  CFAppAPI: ICFAppAPI
+
+declare global {
+  interface Window {
+    CFAppAPI: ICFAppAPI
+    CFAppAuthAPI: ICFAppAuthAPI
+  }
 }
-export const WINDOW = new InjectionToken<AppWindow>('Global window object', {
+
+
+export const WINDOW = new InjectionToken<Window>('Global window object', {
   factory: () => {
     if (!window.CFAppAPI) {
       window.CFAppAPI = Object.create({})

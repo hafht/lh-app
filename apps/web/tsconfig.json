@@ -10,7 +10,9 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true
   },
-  "files": [],
+  "files": [
+    "libs/types/src/lib/window.d.ts"
+  ],
   "include": [],
   "references": [
     {
