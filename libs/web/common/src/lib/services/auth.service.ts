@@ -85,5 +85,9 @@ export class AuthService {
       isProcessing: false
     })
   }
+
+  getAuthToken() {
+    return this.userTokenStore() as UserToken;
+  }
 }
 

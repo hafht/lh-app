@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { CopyrightComponent, LoadingComponent } from '@creative-force/cf-app-web-component';
-import { AuthService, ElectronService } from '@creative-force/cf-app-web/data-access';
+import { AuthService, ElectronService } from '@creative-force/cf-app-web/common';
 import {
   combineLatest,
   delay,

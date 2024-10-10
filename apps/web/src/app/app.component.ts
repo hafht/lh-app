@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, inject } from '@angular/core';
 import {NavigationEnd, Router, RouterModule} from '@angular/router';
-import { LoggerService, } from '@creative-force/cf-app-web/data-access';
+import { LoggerService, } from '@creative-force/cf-app-web/common';
 import {filter} from "rxjs";
 @Component({
   standalone: true,

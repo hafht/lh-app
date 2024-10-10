@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
-import { ElectronService } from '@creative-force/cf-app-web/data-access';
+import { ElectronService } from '@creative-force/cf-app-web/common';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { distinctUntilChanged, map, takeUntil } from 'rxjs';
 import { injectDestroy } from 'ngxtension/inject-destroy';

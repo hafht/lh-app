@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { HELPER_LINKS } from '@creative-force/cf-app-shared';
-import { ElectronService } from '@creative-force/cf-app-web/data-access';
+import { ElectronService } from '@creative-force/cf-app-web/common';
 
 
 @Component({
@@ -54,7 +54,7 @@ export class CopyrightComponent {
   get appInfo() {
     return this._electronService.appInfo
   }
- 
+
   currentYear = new Date().getFullYear();
   privacyUrl = HELPER_LINKS.privacyUrl;
   termOfServiceUrl = HELPER_LINKS.termOfServiceUrl;

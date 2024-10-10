@@ -1,6 +1,6 @@
 import {ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot} from "@angular/router";
 import {inject} from "@angular/core";
-import {AuthService} from "@creative-force/cf-app-web/data-access";
+import {AuthService} from "@creative-force/cf-app-web/common";
 
 export const authGuardFunction: CanActivateFn = (next:ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
   const router = inject(Router)
