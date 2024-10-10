@@ -1,23 +1,91 @@
-import { BrowserWindow, shell, screen, app } from 'electron';
+import { BrowserWindow, shell, screen, app, protocol, net } from 'electron';
 import { join } from 'path';
 import { format } from 'url';
 import { CFAppCore } from './core';
 import { isTrustedUrl } from './utils/validate-external-url';
 import { MainMenu } from './main-menu';
 import { isDebug } from './utils/electron';
-import * as fs from 'node:fs';
+import { readdirSync } from 'node:fs';
 
 export default class App {
   // Keep a global reference of the window object, if you don't, the window will
   // be closed automatically when the JavaScript object is garbage collected.
   static mainWindow: Electron.BrowserWindow;
+  static rootAppEndpoint = 'creative-force-apps://luma.app';
+
+  static main() {
+    // we pass the Electron.App object and the
+    // Electron.BrowserWindow into this function
+    // so this class has no dependencies. This
+    // makes the code easier to write tests for
+    const gotTheLock = app.requestSingleInstanceLock();
+    if (!gotTheLock) {
+      app.quit();
+      return;
+    }
+
+    /**
+     * Before app ready
+     * **/
+
+    const protocolClientName = CFAppCore.environment().appId;
+    app.setAsDefaultProtocolClient(protocolClientName);
+    protocol.registerSchemesAsPrivileged([
+      { scheme: 'creative-force-apps', privileges: { standard: true } },
+    ]);
+    /** End Before app ready **/
+
+    app.on('second-instance', () => {
+      // Someone tried to run a second instance, we should focus our window.
+      const mainWindow = App.mainWindow;
+      if (mainWindow) {
+        if (mainWindow.isMinimized()) {
+          mainWindow.restore();
+        }
+        mainWindow.focus();
+      }
+    });
+
+    app.on('window-all-closed', App.onWindowAllClosed); // Quit when all windows are closed.
+    app.on('ready', App.onReady); // App is ready to load data
+    app.on('activate', App.onActivate); // App is activated
+
+    // On session created
+    const webRootPath = join(
+      __dirname,
+      '..',
+      CFAppCore.appConfig().development.rendererAppName,
+      'browser'
+    );
+    const allStaticWebPath = readdirSync(webRootPath);
+    app.on('session-created', () => {
+      if (isDebug()) {
+        return;
+      }
+      protocol.handle('creative-force-apps', (req) => {
+        const requestPath = req.url.replace(
+          `${App.rootAppEndpoint.split('#')[0]}/`,
+          ''
+        );
+        const isStaticPath =
+          allStaticWebPath.findIndex((path) => requestPath.startsWith(path)) >=
+          0;
+        if (!requestPath || !isStaticPath) {
+          return net.fetch(`file://${join(webRootPath, 'index.html')}`);
+        }
+        return net.fetch(`file://${join(webRootPath, requestPath)}`);
+      });
+    });
+  }
 
   public static isDevelopmentMode() {
     const isEnvironmentSet: boolean = 'ELECTRON_IS_DEV' in process.env;
     const getFromEnvironment: boolean =
       parseInt(process.env.ELECTRON_IS_DEV, 10) === 1;
 
-    return isEnvironmentSet ? getFromEnvironment : !CFAppCore.environment().production;
+    return isEnvironmentSet
+      ? getFromEnvironment
+      : !CFAppCore.environment().production;
   }
 
   private static onWindowAllClosed() {
@@ -63,7 +131,7 @@ export default class App {
     const workAreaSize = screen.getPrimaryDisplay().workAreaSize;
     const width = Math.min(1200, workAreaSize.width || 1200);
     const height = Math.min(800, workAreaSize.height || 800);
-    MainMenu.setDefaultMenu()
+    MainMenu.setDefaultMenu();
     // Create the browser window.
     App.mainWindow = new BrowserWindow({
       width: width,
@@ -82,7 +150,7 @@ export default class App {
     App.mainWindow.once('ready-to-show', () => {
       App.mainWindow.show();
       if (isDebug()) {
-        App.mainWindow.webContents.openDevTools()
+        App.mainWindow.webContents.openDevTools();
       }
     });
 
@@ -101,58 +169,25 @@ export default class App {
     });
 
     App.mainWindow.webContents.on('page-title-updated', () => {
-      App.mainWindow.setTitle(`${app.getName()} v${app.getVersion()}`)
-    })
+      App.mainWindow.setTitle(`${app.getName()} v${app.getVersion()}`);
+    });
 
     App.mainWindow.webContents.setWindowOpenHandler((_) => {
       if (isTrustedUrl(_.url)) {
-        shell.openExternal(_.url)
+        shell.openExternal(_.url);
       } else {
-        console.warn(`Prevent open url: ${_.url}`, _)
+        console.warn(`Prevent open url: ${_.url}`, _);
       }
-      return { action: 'deny' }
-    })
+      return { action: 'deny' };
+    });
   }
 
   private static loadMainWindow() {
     // load the index.html of the app.
-    console.log('Renderer file path', join(__dirname, '..', CFAppCore.appConfig().development.rendererAppName, 'browser','index.html'))
     if (isDebug()) {
       App.mainWindow.loadURL(`http://localhost:${CFAppCore.appConfig().development.rendererAppPort}`);
     } else {
-      App.mainWindow.loadURL(
-        format({
-          pathname: join(__dirname, '..', CFAppCore.appConfig().development.rendererAppName, 'index.html'),
-          protocol: 'file:',
-          slashes: true,
-        })
-      );
+      App.mainWindow.loadURL(App.rootAppEndpoint)
     }
-  }
-
-  static main() {
-    // we pass the Electron.App object and the
-    // Electron.BrowserWindow into this function
-    // so this class has no dependencies. This
-    // makes the code easier to write tests for
-    const gotTheLock = app.requestSingleInstanceLock();
-    if (!gotTheLock) {
-      app.quit();
-      return;
-    }
-    app.on('second-instance', () => {
-      // Someone tried to run a second instance, we should focus our window.
-      const mainWindow = App.mainWindow;
-      if (mainWindow) {
-        if (mainWindow.isMinimized()) {
-          mainWindow.restore();
-        }
-        mainWindow.focus();
-      }
-    });
-
-    app.on('window-all-closed', App.onWindowAllClosed); // Quit when all windows are closed.
-    app.on('ready', App.onReady); // App is ready to load data
-    app.on('activate', App.onActivate); // App is activated
   }
 }

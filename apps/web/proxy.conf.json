@@ -6,5 +6,9 @@
   "/desktop-api": {
     "target": "http://localhost:3000",
     "secure": false
+  },
+  "/test-electron-api": {
+    "target": "http://localhost:3000",
+    "secure": false
   }
 }

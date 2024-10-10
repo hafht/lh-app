@@ -6,5 +6,6 @@ export const environment: IEnvironment = {
   production: false,
   version: __BUILD_VERSION__,
   buildEnv: 'dev',
-  cfAppName: 'luma'
+  cfAppName: 'luma',
+  appId: 'com.creativeforce.app.luma.dev',
 };

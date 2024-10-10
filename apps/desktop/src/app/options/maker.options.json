@@ -1,6 +1,7 @@
 {
   "$schema": "../../../../../node_modules/nx-electron/src/validation/maker.schema.json",
   "appId": "com.creativeforce.luma.debug",
+  "productName": "Next Luma",
   "copyright": "Copyright © 2020 Creativeforce.io, Inc.",
   "artifactName": "Luma-${version}-${os}.${ext}",
   "mac": {

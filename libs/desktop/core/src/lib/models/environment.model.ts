@@ -5,4 +5,5 @@ export interface IEnvironment {
   version: string,
   buildEnv: BuildEnv;
   cfAppName: CFAppName
+  appId: string;
 }

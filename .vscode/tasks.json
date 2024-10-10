@@ -18,7 +18,7 @@
     },
     {
       "label": "build_and_debug_desktop_main",
-      "dependsOn": ["build_desktop_app"],
+      "dependsOn": ["cleanup_build_folder","build_desktop_app"],
       "dependsOrder": "parallel",
       "group": {
         "kind": "build",
@@ -93,6 +93,19 @@
           }
         }
       ]
+    },
+    {
+      "label": "cleanup_build_folder",
+      "type": "shell",
+      "command": "npx rimraf dist/apps/desktop/*",
+      "presentation": {
+        "group": "Debug",
+        "echo": false,
+        "reveal": "never",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false
+      },
     },
   ],
   "inputs": [
