@@ -1,5 +1,5 @@
 {
-  "name": "@creative-force/cf-app-web/data-access",
+  "name": "@creative-force/cf-app-web/common",
   "version": "0.0.1",
   "peerDependencies": {
     "@angular/common": "^18.2.0",

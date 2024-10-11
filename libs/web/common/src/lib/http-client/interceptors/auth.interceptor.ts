@@ -1,7 +1,7 @@
 import {HttpEvent, HttpHandlerFn, HttpRequest} from "@angular/common/http";
 import {Observable, tap} from "rxjs";
 import {inject} from "@angular/core";
-import {AuthService} from "@creative-force/cf-app-web/common";
+import {AuthService} from "../../services/auth.service";
 import {HTTP_REQUEST_CONFIG_CONTEXT} from "../config.token";
 
 
