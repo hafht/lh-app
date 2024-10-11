@@ -1,10 +1,8 @@
-import { exec } from 'child_process';
-import  * as devKit from '@nx/devkit';
-import { ExecutorSchema } from './schema';
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import {executeCommand} from '../../../../utils/command'
+import { executeCommand } from '../../../../utils/command';
 import { join } from 'path';
 import { readFileSync, writeFileSync } from 'fs';
+
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 
 export interface PublishElectronExecutorOptions {
@@ -28,12 +26,6 @@ export default async function publishElectron(
 
   const packageFilePath = join(context.cwd, 'package.json')
   console.log('projectFolder', packageFilePath)
-
-  const packageData = JSON.parse(readFileSync(packageFilePath, 'utf8').toString());
-  packageData.name = 'Luma-Next'
-  writeFileSync(packageFilePath, JSON.stringify(packageData))
-
-  console.log('before pack hook', packageData)
   await executeCommand(`npx nx run ${context.projectName}:package`)
   return { success: true };
 }
