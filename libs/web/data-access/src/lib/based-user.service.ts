@@ -27,7 +27,7 @@ export class BasedUserService {
           this.myUser.set(res.data)
           this.storedMyUserInfo.set({
             ...res.data,
-            name: res.data.name + ' stored'
+            name: 'Stored ' + res.data.name
           })
         }),
         map(res => res.data)

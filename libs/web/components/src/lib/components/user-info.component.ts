@@ -9,7 +9,7 @@ import { UserAvatarComponent } from './user-avatar.component';
   template: `
     <div class="user-info flex justify-between items-center">
       <p class="text-white cen mr-2">
-        {{user?.name}}
+        {{user.name}}
       </p>
       <cf-app-user-avatar [email]="user.email" [avatarUrl]="user.avatarUrl" [name]="user.name"></cf-app-user-avatar>
     </div>
