@@ -1,7 +1,7 @@
 import {Component, inject, signal} from "@angular/core";
 import {AuthService} from "@creative-force/cf-app-web/common";
 import {Router} from "@angular/router";
-import {CFHttpClient, HTTP_REQUEST_CONFIG_CONTEXT} from "@creative-force/cf-app/web/http-client";
+import {CFHttpClient, HTTP_REQUEST_CONFIG_CONTEXT} from "@creative-force/cf-app-web/common";
 import {HttpContext} from "@angular/common/http";
 
 @Component({

@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, inject } from '@angular/core';
-import {NavigationEnd, Router, RouterModule} from '@angular/router';
-import { LoggerService, } from '@creative-force/cf-app-web/common';
-import {filter} from "rxjs";
+import { Router, RouterModule } from '@angular/router';
+import { LoggerService } from '@creative-force/cf-app-web/common';
+
 @Component({
   standalone: true,
   imports: [RouterModule, CommonModule],
@@ -11,8 +11,8 @@ import {filter} from "rxjs";
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements AfterViewInit {
-  private _logger = inject(LoggerService)
-  private  router = inject(Router)
+  private _logger = inject(LoggerService);
+  private router = inject(Router);
   ngAfterViewInit(): void {
     // this.router.events
     //   .pipe(filter((e) => e instanceof NavigationEnd))
@@ -20,5 +20,4 @@ export class AppComponent implements AfterViewInit {
     //   console.log(e)
     // })
   }
-
 }

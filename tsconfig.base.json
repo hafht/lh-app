@@ -22,16 +22,11 @@
       "@creative-force/cf-app-web-component": [
         "libs/web/components/src/index.ts"
       ],
-      "@creative-force/cf-app-web/common": [
-        "libs/web/common/src/index.ts"
-      ],
+      "@creative-force/cf-app-web/common": ["libs/web/common/src/index.ts"],
       "@creative-force/cf-app-web/features": ["libs/web/features/src/index.ts"],
       "@creative-force/cf-app/desktop/auth": ["libs/desktop/auth/src/index.ts"],
       "@creative-force/cf-app/luma-renderer/feature": [
         "libs/luma-renderer/feature/src/index.ts"
-      ],
-      "@creative-force/cf-app/web/http-client": [
-        "libs/web/http-client/src/index.ts"
       ],
       "@lh-app/builder": ["tools/builder/src/index.ts"]
     },

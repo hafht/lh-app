@@ -4,7 +4,7 @@ import {
   CFHttpClient,
   HTTP_CLIENT_CONFIG_TOKEN,
   loggingInterceptor
-} from "@creative-force/cf-app/web/http-client";
+} from "@creative-force/cf-app-web/common";
 import {provideHttpClient, withFetch, withInterceptors} from "@angular/common/http";
 
 export const lumaAppProviders: (Provider | EnvironmentProviders)[] = [
