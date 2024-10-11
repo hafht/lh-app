@@ -9,3 +9,16 @@ export interface HttpRequestConfig {
   isPublishAPI?: boolean
   isLoggingEnabled?: boolean
 }
+
+
+export interface ApiResponseMetadata {
+  code: string;
+  message?: string;
+  requestId?: string;
+}
+
+
+export interface ApiResponsesModel<T> {
+  metadata: ApiResponseMetadata;
+  data: T | null;
+}

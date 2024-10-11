@@ -1,4 +1,4 @@
-import {EnvironmentProviders, Provider} from "@angular/core";
+import { EnvironmentProviders, provideExperimentalZonelessChangeDetection, Provider } from '@angular/core';
 import {
   authInterceptor,
   CFHttpClient,
@@ -14,6 +14,7 @@ export const lumaAppProviders: (Provider | EnvironmentProviders)[] = [
       'x-screen-id': 5100
     }
   },
+  provideExperimentalZonelessChangeDetection(),
   provideHttpClient(
     withFetch(),
     withInterceptors([
