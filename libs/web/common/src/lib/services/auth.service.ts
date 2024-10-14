@@ -1,7 +1,7 @@
 import { toObservableSignal } from 'ngxtension/to-observable-signal';
 import { inject, Injectable, signal } from "@angular/core";
 import { LoggerService } from './logger.service';
-import {filter, Subject, take, takeUntil, timer} from 'rxjs';
+import { filter, from, Observable, of, Subject, take, takeUntil, tap, timer } from 'rxjs';
 import {UserToken} from "@creative-force/cf-app-types";
 import {injectLocalStorage} from "ngxtension/inject-local-storage";
 import { ElectronService } from './electron.service';
@@ -24,7 +24,7 @@ const DEFAULT_STATE: AuthState = {
 })
 export class AuthService {
   private logger = inject(LoggerService)
-  private userTokenStore = injectLocalStorage<any>('userToken')
+  private userTokenStore = injectLocalStorage<UserToken>('userToken')
   private _window = inject(WINDOW);
 
   state = toObservableSignal(signal<AuthState>({...DEFAULT_STATE}))
@@ -80,6 +80,7 @@ export class AuthService {
   }
 
   logout() {
+    this.logger.scope('auth').info(`User logged out.`)
     this.state.set({
       ...DEFAULT_STATE,
       isProcessing: false
@@ -88,6 +89,21 @@ export class AuthService {
 
   getAuthToken() {
     return this.userTokenStore() as UserToken;
+  }
+
+  refreshToken() {
+    const token =  this.userTokenStore();
+    if (!token || !token.refresh_token) {
+      return;
+    }
+    return  of('111')
+    // return from(this._window.CFAppAuthAPI.refreshToken(token.refresh_token))
+    //   .pipe(
+    //     tap(res => {
+    //       console.log('refresh token done', res)
+    //     })
+    //   )
+
   }
 }
 

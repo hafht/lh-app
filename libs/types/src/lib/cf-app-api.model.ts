@@ -14,4 +14,5 @@ export interface ICFAppAPI {
 export interface ICFAppAuthAPI {
   login: () => Promise<TokenSet>
   cancel: () => void
+  refreshToken: (refreshToken: string) => Promise<TokenSet>
 }
