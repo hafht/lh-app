@@ -7,7 +7,7 @@ import { BasedUserService } from '@creative-force/cf-app/web/data-access';
   standalone: true,
   imports: [AppLogoComponent, UserInfoComponent],
   template: `
-    <div class="header flex justify-between p-5">
+    <div class="header flex justify-between p-5 bg-[#262626]">
       <!-- Left content     -->
       <div class="left">
         <cf-app-logo />

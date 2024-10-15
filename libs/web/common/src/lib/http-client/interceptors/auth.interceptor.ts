@@ -4,7 +4,7 @@ import {
   HttpHandlerFn,
   HttpRequest,
 } from '@angular/common/http';
-import { catchError, Observable } from 'rxjs';
+import { catchError, Observable, switchMap, throwError } from 'rxjs';
 import { inject } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { HTTP_REQUEST_CONFIG_CONTEXT } from '../config.token';
@@ -18,7 +18,7 @@ export function authInterceptor(
   if (reqConfig.isPublishAPI) {
     return next(req);
   }
-  const authService = inject(AuthService)
+  const authService = inject(AuthService);
   const clonedRequest = req.clone({
     setHeaders: {
       Authorization: `Bearer ${authService.getAuthToken().access_token}`,
@@ -31,22 +31,46 @@ export function authInterceptor(
       if (error instanceof HttpErrorResponse) {
         return handleResponseError(error, req, next, authService);
       }
-      console.error('AuthInterceptor - Unhandle exception!');
-      next(error);
+      console.error('AuthInterceptor - Unhandled exception!');
+      throwError(() => error);
     })
   );
 }
 
-function handleResponseError(error: HttpErrorResponse, request: HttpRequest<any>,  next: HttpHandlerFn, authService?: AuthService) {
-  console.log('do handle response error', error)
+function handleResponseError(
+  error: HttpErrorResponse,
+  request: HttpRequest<any>,
+  next: HttpHandlerFn,
+  authService?: AuthService
+) {
   const metaDataError = handleHttpStatusResponse(error.status);
   if (metaDataError?.code === 'HTTP-401') {
-    authService?.refreshToken()?.subscribe(v => console.log(v));
+    return authService?.refreshToken()?.pipe(
+      switchMap((newTokens) => {
+        if (!newTokens) {
+          return throwError(() => new Error('Cannot refresh token!'));
+        }
+        const retryRequest = request.clone({
+          setHeaders: {
+            Authorization: `Bearer ${newTokens.access_token}`,
+          },
+        });
+        return next(retryRequest);
+      }),
+      catchError((err) => {
+        // Handle refresh token failure (e.g., logout)
+        authService?.logout();
+
+        return throwError(() => err);
+      })
+    );
   }
-  return next(request)
+  return throwError(() => error);
 }
 
-function handleHttpStatusResponse(statusCode: number): ApiResponseMetadata | null {
+function handleHttpStatusResponse(
+  statusCode: number
+): ApiResponseMetadata | null {
   if (statusCode === 0) {
     return {
       code: 'HTTP-0',

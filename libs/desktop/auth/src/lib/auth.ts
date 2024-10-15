@@ -14,6 +14,10 @@ class _CFAppAuthentication extends CFAppElectronBasedModule {
   private openIdClient!: OpenIdClient;
   private redirectUri = ''
 
+  private get authClientId() {
+    return CFAppCore.environment().cfAppName
+  }
+
   constructor(identify: string) {
     super(identify);
   }
@@ -38,16 +42,19 @@ class _CFAppAuthentication extends CFAppElectronBasedModule {
 
     })
     ipcMain.on('cancel', () => {
-
+      return true
+    })
+    ipcMain.handle('refreshToken', async (_, refreshToken) => {
+      console.log('refreshToken', refreshToken)
+      return this.refreshToken(refreshToken)
     })
   }
 
   async login() {
-    const {buildEnv, cfAppName} = CFAppCore.environment();
     const {redirectUri, handleRedirectUrlFn} = await this.authServer.createServer();
     this.redirectUri = redirectUri;
     this.openIdClient = new OpenIdClient({
-      clientId: cfAppName,
+      clientId: this.authClientId,
       accountApiConfig: this.accountApiConfig,
       redirectUri: redirectUri
     })
@@ -81,24 +88,14 @@ class _CFAppAuthentication extends CFAppElectronBasedModule {
   async refreshToken (refreshToken: string) {
     try {
       const requestParams = new URLSearchParams();
-      requestParams.append('client_id', this.openIdClient.clientId);
+      requestParams.append('client_id', this.authClientId);
       requestParams.append('grant_type', 'refresh_token');
       requestParams.append('refresh_token', refreshToken);
-      const controller = new AbortController();
-      const response = await net.fetch(this.accountApiConfig.tokenEndpoint, {
-        method: 'POST',
-        headers: {
-          'User-Agent': 'LH-APP',
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: requestParams,
-        signal: controller.signal,
-      });
-      if (!response || response.status !== 200) {
+      const result = await this.makeRequestAPI<TokenSetParameters>(this.accountApiConfig.tokenEndpoint, requestParams)
+      if (!result) {
         return;
       }
-      const tokenSetParameters = await (response.json()) as TokenSetParameters
-      return new TokenSet(tokenSetParameters)
+      return new TokenSet(result)
     } catch (e) {
       console.error('Refresh token has error!', e);
       return;
@@ -114,26 +111,35 @@ class _CFAppAuthentication extends CFAppElectronBasedModule {
       requestParams.append('code', params.code);
       requestParams.append('code_verifier', this.openIdClient.getCodeVerifier());
       requestParams.append('redirect_uri', this.redirectUri);
+      const result = await this.makeRequestAPI<TokenSetParameters>(this.accountApiConfig.tokenEndpoint, requestParams)
+      return new TokenSet(result)
+    } catch (e) {
+      console.error('Get token from uri has error', e);
+      return null;
+    }
+  }
 
+
+  private async makeRequestAPI<T>(url: string, params: URLSearchParams) {
+    try {
       const controller = new AbortController();
-      const response = await net.fetch(this.accountApiConfig.tokenEndpoint, {
+      const response = await net.fetch(url, {
         method: 'POST',
         headers: {
           'User-Agent': 'LH-APP',
           'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: requestParams,
+        body: params,
         signal: controller.signal,
       });
-
+      console.log('response', response.status);
       if (!response || response.status !== 200) {
         return;
       }
-      const tokenSetParameters = await (response.json()) as TokenSetParameters
-      return new TokenSet(tokenSetParameters)
+      return await response.json() as T
     } catch (e) {
-      console.error('Get token from uri has error', e);
-      return null;
+      console.error('makeRequestAPI has error', e);
+      return
     }
   }
 }

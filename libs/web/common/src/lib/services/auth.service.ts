@@ -1,11 +1,11 @@
 import { toObservableSignal } from 'ngxtension/to-observable-signal';
-import { inject, Injectable, signal } from "@angular/core";
+import { inject, Injectable, signal } from '@angular/core';
 import { LoggerService } from './logger.service';
-import { filter, from, Observable, of, Subject, take, takeUntil, tap, timer } from 'rxjs';
-import {UserToken} from "@creative-force/cf-app-types";
-import {injectLocalStorage} from "ngxtension/inject-local-storage";
-import { ElectronService } from './electron.service';
+import { catchError, filter, from, Subject, tap, throwError } from 'rxjs';
+import { UserToken } from '@creative-force/cf-app-types';
+import { injectLocalStorage } from 'ngxtension/inject-local-storage';
 import { WINDOW } from '../di-tokens/window';
+import { Router } from '@angular/router';
 
 interface AuthState {
   isProcessing?: boolean;
@@ -26,7 +26,7 @@ export class AuthService {
   private logger = inject(LoggerService)
   private userTokenStore = injectLocalStorage<UserToken>('userToken')
   private _window = inject(WINDOW);
-
+  private router = inject(Router);
   state = toObservableSignal(signal<AuthState>({...DEFAULT_STATE}))
 
   private cannel$ = new Subject<void>();
@@ -85,6 +85,8 @@ export class AuthService {
       ...DEFAULT_STATE,
       isProcessing: false
     })
+
+    this.router.navigateByUrl('app/login')
   }
 
   getAuthToken() {
@@ -96,14 +98,14 @@ export class AuthService {
     if (!token || !token.refresh_token) {
       return;
     }
-    return  of('111')
-    // return from(this._window.CFAppAuthAPI.refreshToken(token.refresh_token))
-    //   .pipe(
-    //     tap(res => {
-    //       console.log('refresh token done', res)
-    //     })
-    //   )
 
+    return from(this._window.CFAppAuthAPI.refreshToken(token.refresh_token))
+      .pipe(
+        catchError((err) => throwError(() => {
+          this.logger.error('AuthService - refresh token has exception', err)
+          return throwError(() => err)
+        })),
+      )
   }
 }
 
